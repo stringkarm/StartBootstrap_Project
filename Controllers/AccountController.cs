@@ -1,36 +1,55 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using StartBootstrap_Project.Models;
 
 namespace StartBootstrap_Project.Controllers
 {
     public class AccountController : Controller
     {
-        // 1. Displays the Login Page
         [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
 
-        // 2. Processes the Login Form Submission
         [HttpPost]
-        public IActionResult Login(Login model)
+        public IActionResult Login(string email, string password)
         {
-            if (ModelState.IsValid)
+            if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
             {
-                // Hardcoded built-in credentials check
-                if (model.Email == "karms@gmail.com" && model.Password == "admin123")
-                {
-                    // Redirects to the Index action inside HomeController on success
-                    return RedirectToAction("Index", "Home");
-                }
 
-                // If credentials match fails, add an error message
-                ModelState.AddModelError(string.Empty, "Invalid email or password.");
+                return RedirectToAction("Index", "Home");
             }
 
-            // Return the model back to the view to retain inputs and display validation errors
-            return View(model);
+            ModelState.AddModelError("", "Invalid login attempt. Please check your credentials.");
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Register(string fullName, string email, string password, string confirmPassword)
+        {
+            if (string.IsNullOrEmpty(fullName) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+            {
+                ModelState.AddModelError("", "All fields are required.");
+                return View();
+            }
+
+            if (password != confirmPassword)
+            {
+                ModelState.AddModelError("", "Passwords do not match.");
+                return View();
+            }
+
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            return View();
         }
     }
 }
