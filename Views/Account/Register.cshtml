@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4 text-dark">Register</h2>
+
+                    <form onsubmit="return false;">
+                        <div class="mb-3 text-start">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-control" placeholder="Enter your full name" />
+                        </div>
+
+                        <div class="mb-3 text-start">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" class="form-control" placeholder="example@domain.com" />
+                        </div>
+
+                        <div class="mb-3 text-start">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-control" placeholder="Create a password" />
+                        </div>
+
+                        <div class="mb-3 text-start">
+                            <label class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" placeholder="Confirm your password" />
+                        </div>
+
+                        <button type="button" class="btn btn-primary w-100 mb-3" style="background-color: #1abc9c; border-color: #1abc9c;">
+                            Sign Up
+                        </button>
+
+                        <div class="text-center">
+                            <p class="mb-0 text-muted">
+                                Already have an account?
+                                <a asp-controller="Account" asp-action="Login" class="text-decoration-none" style="color: #1abc9c; font-weight: bold;">Sign In</a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
