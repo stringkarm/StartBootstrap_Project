@@ -4,8 +4,8 @@
     ViewData["Title"] = "Login";
 }
 
-<<<<<<< HEAD
 <style>
+    /* Signature Freelancer Theme Styles */
     .theme-card {
         border: none;
         border-radius: 1rem;
@@ -15,12 +15,13 @@
 
     .theme-title {
         color: #2c3e50;
-        font-family: 'Montserrat', sans-serif;
+        font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 1px;
     }
 
+    /* Theme Star Divider */
     .divider-custom {
         margin: 1rem 0 1.5rem;
         display: flex;
@@ -42,6 +43,7 @@
         margin: 0 1rem;
     }
 
+    /* Custom Inputs */
     .theme-input {
         border-radius: 0.5rem;
         border: 2px solid #ced4da;
@@ -63,6 +65,7 @@
         letter-spacing: 0.5px;
     }
 
+    /* Theme Button */
     .btn-theme {
         background-color: #1abc9c;
         border: 2px solid #1abc9c;
@@ -73,10 +76,9 @@
         border-radius: 0.5rem;
         letter-spacing: 1px;
         transition: all 0.3s ease;
-        width: 100%;
     }
 
-        .btn-theme:hover {
+        .btn-theme:hover, .btn-theme:focus {
             background-color: #159b80;
             border-color: #159b80;
             color: white;
@@ -85,6 +87,7 @@
     .text-theme-link {
         color: #1abc9c;
         font-weight: bold;
+        transition: color 0.2s ease;
     }
 
         .text-theme-link:hover {
@@ -92,76 +95,44 @@
         }
 </style>
 
-<div class="container mt-5 py-5" style="padding-top: 150px !important;">
+<div class="container mt-4 py-4">
     <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-5">
-            <div class="card theme-card p-4">
+        <div class="col-md-5 col-lg-4">
+            <div class="card theme-card p-3">
                 <div class="card-body">
-                    <h2 class="text-center theme-title mb-0">Login</h2>
 
+                    <h2 class="theme-title text-center mb-1">Login</h2>
                     <div class="divider-custom">
                         <div class="divider-custom-line"></div>
-                        <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                        <div class="divider-custom-icon">★</div>
                         <div class="divider-custom-line"></div>
                     </div>
-=======
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h2 class="card-title text-center mb-4">Login</h2>
->>>>>>> parent of 427940e (updated the newest version)
 
                     <form asp-controller="Account" asp-action="Login" method="post">
-                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3 small fw-bold"></div>
 
                         <div class="mb-3">
-<<<<<<< HEAD
                             <label asp-for="Email" class="form-label theme-label">Email Address</label>
-                            <input asp-for="Email" class="form-control theme-input" placeholder="enter email..." required />
+                            <input asp-for="Email" class="form-control theme-input" placeholder="example@domain.com" required />
                             <span asp-validation-for="Email" class="text-danger small"></span>
                         </div>
 
-                        <div class="mb-4">
+                        <div class="mb-3">
                             <label asp-for="Password" class="form-label theme-label">Password</label>
-                            <input asp-for="Password" type="password" class="form-control theme-input" placeholder="enter password..." required />
+                            <input asp-for="Password" type="password" class="form-control theme-input" placeholder="Enter your password" required />
                             <span asp-validation-for="Password" class="text-danger small"></span>
                         </div>
 
-                        <div class="mb-3">
-                            <button type="submit" class="btn btn-theme">Log In</button>
+                        <button type="submit" class="btn btn-theme w-100 mt-2 mb-3">Log In</button>
+
+                        <div class="text-center">
+                            <p class="mb-0 text-muted">
+                                Don't have an account?
+                                <a asp-controller="Account" asp-action="Register" class="text-decoration-none text-theme-link">Register</a>
+                            </p>
                         </div>
                     </form>
-
-                    <div class="text-center mt-3">
-                        <span class="text-muted">Don't have an account? </span>
-                        <a asp-controller="Account" asp-action="Register" class="text-theme-link text-decoration-none">Register</a>
-                    </div>
-=======
-                            <label asp-for="Email" class="form-label">Email Address</label>
-                            <input asp-for="Email" class="form-control" placeholder="example@domain.com" />
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="Password" class="form-label">Password</label>
-                            <input asp-for="Password" class="form-control" placeholder="Enter password" />
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary w-100" style="background-color: #1abc9c; border-color: #1abc9c;">Sign In</button>
-                    </form>
-
-                    <div class="text-center mt-3">
-                        <p class="mb-0 text-muted">
-                            Don't have an account? 
-                            <a asp-controller="Account" asp-action="Register" class="text-decoration-none" style="color: #1abc9c; font-weight: bold;">Sign Up</a>
-                        </p>
-                    </div>
-
->>>>>>> parent of 427940e (updated the newest version)
                 </div>
             </div>
         </div>
