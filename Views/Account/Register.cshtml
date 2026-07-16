@@ -69,16 +69,21 @@
 <script>
     $(document).ready(function () {
         $('#registerForm').on('submit', function (e) {
-
+            // This prevents the form from automatically submitting/redirecting
+            e.preventDefault(); 
+            
             var fullName = $(this).find('input[name="FullName"]').val();
             var email = $(this).find('input[name="Email"]').val();
             var password = $(this).find('input[name="Password"]').val();
             var confirmPassword = $(this).find('input[name="ConfirmPassword"]').val();
 
-            alert("Registration Attempt\n\nFull Name: " + fullName + 
+            alert("Registration Data Captured:\n\nFull Name: " + fullName + 
                   "\nEmail: " + email + 
                   "\nPassword: " + password + 
                   "\nConfirm Password: " + confirmPassword);
+
+            // If you want to submit the form after the alert, uncomment the line below:
+            // $(this).off('submit').submit();
         });
     });
 </script>
