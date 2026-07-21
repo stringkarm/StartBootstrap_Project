@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StartBootstrap_Project.Models;
+using System.Diagnostics;
 
 namespace StartBootstrap_Project.Controllers
 {
@@ -15,11 +17,8 @@ namespace StartBootstrap_Project.Controllers
         {
             if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
             {
-
                 return RedirectToAction("Index", "Home");
             }
-
-            ModelState.AddModelError("", "Invalid login attempt. Please check your credentials.");
             return View();
         }
 
@@ -30,26 +29,38 @@ namespace StartBootstrap_Project.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(string fullName, string email, string password, string confirmPassword)
+        public IActionResult Register(RegisterViewModel model)
         {
-            if (string.IsNullOrEmpty(fullName) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(model.FullName) ||
+                string.IsNullOrEmpty(model.Email) ||
+                string.IsNullOrEmpty(model.Password))
             {
-                ModelState.AddModelError("", "All fields are required.");
-                return View();
+                return Json(new { success = false, message = "All fields are required." });
             }
 
-            if (password != confirmPassword)
+            if (model.Password != model.ConfirmPassword)
             {
-                ModelState.AddModelError("", "Passwords do not match.");
-                return View();
+                return Json(new { success = false, message = "Passwords do not match." });
             }
 
-            if (ModelState.IsValid)
-            {
-                return RedirectToAction("Login", "Account");
-            }
+            Debug.WriteLine("------------------------------------------");
+            Debug.WriteLine("NEW REGISTRATION RECEIVED:");
+            Debug.WriteLine("Full Name: " + model.FullName);
+            Debug.WriteLine("Email: " + model.Email);
+            Debug.WriteLine("Password: " + model.Password);
+            Debug.WriteLine("------------------------------------------");
 
-            return View();
+            return Json(new
+            {
+                success = true,
+                message = "Registration successful!",
+                userData = new
+                {
+                    FullName = model.FullName,
+                    Email = model.Email,
+                    Password = model.Password
+                }
+            });
         }
     }
 }

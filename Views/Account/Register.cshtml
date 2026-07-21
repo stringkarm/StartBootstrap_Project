@@ -69,21 +69,43 @@
 <script>
     $(document).ready(function () {
         $('#registerForm').on('submit', function (e) {
-            // This prevents the form from automatically submitting/redirecting
-            e.preventDefault(); 
-            
-            var fullName = $(this).find('input[name="FullName"]').val();
-            var email = $(this).find('input[name="Email"]').val();
-            var password = $(this).find('input[name="Password"]').val();
-            var confirmPassword = $(this).find('input[name="ConfirmPassword"]').val();
+            e.preventDefault();
 
-            alert("Registration Data Captured:\n\nFull Name: " + fullName + 
-                  "\nEmail: " + email + 
-                  "\nPassword: " + password + 
-                  "\nConfirm Password: " + confirmPassword);
+            $.ajax({
+                url: '@Url.Action("Register", "Account")',
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        // 1. Confirmation alert showing the details
+                        var confirmMessage = "Please review your registration details:\n\n" +
+                                             "Full Name: " + response.userData.fullName + "\n" +
+                                             "Email: " + response.userData.email + "\n" +
+                                             "Password: " + response.userData.password + "\n\n" +
+                                             "Are you sure you want to register?";
 
-            // If you want to submit the form after the alert, uncomment the line below:
-            // $(this).off('submit').submit();
+                        var isConfirmed = confirm(confirmMessage);
+
+                        if (isConfirmed) {
+                            // 2. Success alert showing the details
+                            var successMessage = "Sign Up Successfully!\n\n" +
+                                                 "Full Name: " + response.userData.fullName + "\n" +
+                                                 "Email: " + response.userData.email + "\n" +
+                                                 "Password: " + response.userData.password;
+
+                            alert(successMessage);
+
+                            // 3. Reset the form and remain on the registration page
+                            $('#registerForm')[0].reset();
+                        }
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function () {
+                    alert("An error occurred during registration.");
+                }
+            });
         });
     });
 </script>
