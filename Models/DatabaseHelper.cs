@@ -3,21 +3,19 @@
 public static class DatabaseHelper
 {
 
-    public static string InsertAndGetQuery(string tableName, string columnsInput, string valuesInput)
+    public static string InsertAndGetQuery(string tableName, string[] columns, string[] values)
     {
-
-        string[] columnsArray = columnsInput.Split(',');
-        string[] valuesArray = valuesInput.Split(',');
-
         string formattedColumns = "";
         string formattedValues = "";
 
-        for (int i = 0; i < columnsArray.Length; i++)
+ 
+        for (int i = 0; i < columns.Length; i++)
         {
-            string col = columnsArray[i].Trim();
-            string val = valuesArray[i].Trim();
+            string col = columns[i].Trim();
+            string val = values[i].Trim();
 
-            if (i == columnsArray.Length - 1)
+
+            if (i == columns.Length - 1)
             {
                 formattedColumns += col;
                 formattedValues += val;
@@ -29,8 +27,10 @@ public static class DatabaseHelper
             }
         }
 
+
         string insertQuery = $"INSERT INTO {tableName} ({formattedColumns}) VALUES ({formattedValues})";
 
+        // Store and log the data in the console window
         Console.WriteLine("------------------------------------------");
         Console.WriteLine($"DYNAMIC QUERY FOR [{tableName}] STORED IN CONSOLE:");
         Console.WriteLine(insertQuery);
