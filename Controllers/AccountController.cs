@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StartBootstrap_Project.Models;
-using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace StartBootstrap_Project.Controllers
 {
@@ -43,23 +43,19 @@ namespace StartBootstrap_Project.Controllers
                 return Json(new { success = false, message = "Passwords do not match." });
             }
 
-            Debug.WriteLine("------------------------------------------");
-            Debug.WriteLine("NEW REGISTRATION RECEIVED:");
-            Debug.WriteLine("Full Name: " + model.FullName);
-            Debug.WriteLine("Email: " + model.Email);
-            Debug.WriteLine("Password: " + model.Password);
-            Debug.WriteLine("------------------------------------------");
+            // Define columns and values as strings to be processed via split, for loop, and if-else
+            string columns = "FullName, Email, Password, ConfirmPassword, DateRegistered";
+            string values = $"'{model.FullName}', '{model.Email}', '{model.Password}', '{model.ConfirmPassword}', '{model.DateRegistered:yyyy-MM-dd HH:mm:ss}'";
 
+            // Call the reusable dynamic method with the three required parameters
+            string generatedQuery = DatabaseHelper.InsertAndGetQuery("Users", columns, values);
+
+            // Return JSON response containing the query for the alerts
             return Json(new
             {
                 success = true,
-                message = "Registration successful!",
-                userData = new
-                {
-                    FullName = model.FullName,
-                    Email = model.Email,
-                    Password = model.Password
-                }
+                message = "Data successfully stored in the console and query generated!",
+                sqlQuery = generatedQuery
             });
         }
     }

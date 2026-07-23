@@ -77,25 +77,17 @@
                 data: $(this).serialize(),
                 success: function (response) {
                     if (response.success) {
-                        // 1. Confirmation alert showing the details
-                        var confirmMessage = "Please review your registration details:\n\n" +
-                                             "Full Name: " + response.userData.fullName + "\n" +
-                                             "Email: " + response.userData.email + "\n" +
-                                             "Password: " + response.userData.password + "\n\n" +
-                                             "Are you sure you want to register?";
+
+                        var confirmMessage = "Review the generated SQL Insert Query for your data:\n\n" +
+                                             response.sqlQuery + "\n\n" +
+                                             "Do you want to proceed?";
 
                         var isConfirmed = confirm(confirmMessage);
 
                         if (isConfirmed) {
-                            // 2. Success alert showing the details
-                            var successMessage = "Sign Up Successfully!\n\n" +
-                                                 "Full Name: " + response.userData.fullName + "\n" +
-                                                 "Email: " + response.userData.email + "\n" +
-                                                 "Password: " + response.userData.password;
 
-                            alert(successMessage);
+                            alert("Successfully Registered!\n\nExecuted Query:\n" + response.sqlQuery);
 
-                            // 3. Reset the form and remain on the registration page
                             $('#registerForm')[0].reset();
                         }
                     } else {
