@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StartBootstrap_Project.Models;
-using System.Collections.Generic;
 
 namespace StartBootstrap_Project.Controllers
 {
@@ -43,22 +42,31 @@ namespace StartBootstrap_Project.Controllers
                 return Json(new { success = false, message = "Passwords do not match." });
             }
 
+            if (model.Id == 0)
+            {
+                model.Id = 1;
+            }
+
             string[] columns = { "FullName", "Email", "Password", "ConfirmPassword", "DateRegistered" };
             string[] values = {
-                                $"'{model.FullName}'",
-                                $"'{model.Email}'",
-                                $"'{model.Password}'",
-                                $"'{model.ConfirmPassword}'",
-                                $"'{model.DateRegistered:yyyy-MM-dd HH:mm:ss}'"
-        };
+                $"'{model.FullName}'",
+                $"'{model.Email}'",
+                $"'{model.Password}'",
+                $"'{model.ConfirmPassword}'",
+                $"'{model.DateRegistered:yyyy-MM-dd HH:mm:ss}'"
+            };
 
-            string generatedQuery = DatabaseHelper.InsertAndGetQuery("Users", columns, values);
+            string insertQuery = DatabaseHelper.InsertAndGetQuery("Users", columns, values);
+            string updateQuery = DatabaseHelper.UpdateAndGetQuery("Users", new string[] { "FullName" }, new string[] { $"'{model.FullName}'" }, model.Id.ToString());
+            string deleteQuery = DatabaseHelper.DeleteAndGetQuery("Users", model.Id.ToString());
 
             return Json(new
             {
                 success = true,
-                message = "Data successfully stored in the console and query generated!",
-                sqlQuery = generatedQuery
+                message = "All queries successfully generated using ID and stored in console!",
+                insertQuery = insertQuery,
+                updateQuery = updateQuery,
+                deleteQuery = deleteQuery
             });
         }
     }
