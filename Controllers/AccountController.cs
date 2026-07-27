@@ -45,12 +45,12 @@ namespace StartBootstrap_Project.Controllers
 
             string[] columns = { "FullName", "Email", "Password", "ConfirmPassword", "DateRegistered" };
             string[] values = {
-    $"'{model.FullName}'",
-    $"'{model.Email}'",
-    $"'{model.Password}'",
-    $"'{model.ConfirmPassword}'",
-    $"'{model.DateRegistered:yyyy-MM-dd HH:mm:ss}'"
-};
+                                $"'{model.FullName}'",
+                                $"'{model.Email}'",
+                                $"'{model.Password}'",
+                                $"'{model.ConfirmPassword}'",
+                                $"'{model.DateRegistered:yyyy-MM-dd HH:mm:ss}'"
+        };
 
             string generatedQuery = DatabaseHelper.InsertAndGetQuery("Users", columns, values);
 
