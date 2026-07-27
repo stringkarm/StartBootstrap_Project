@@ -2,13 +2,13 @@
 
 public static class DatabaseHelper
 {
-
+  
     public static string InsertAndGetQuery(string tableName, string[] columns, string[] values)
     {
         string formattedColumns = "";
         string formattedValues = "";
 
- 
+       
         for (int i = 0; i < columns.Length; i++)
         {
             string col = columns[i].Trim();
@@ -27,10 +27,8 @@ public static class DatabaseHelper
             }
         }
 
-
         string insertQuery = $"INSERT INTO {tableName} ({formattedColumns}) VALUES ({formattedValues})";
 
-        // Store and log the data in the console window
         Console.WriteLine("------------------------------------------");
         Console.WriteLine($"DYNAMIC QUERY FOR [{tableName}] STORED IN CONSOLE:");
         Console.WriteLine(insertQuery);
