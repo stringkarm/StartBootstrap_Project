@@ -10,7 +10,5 @@ namespace StartBootstrap_Project.Models
         public string Password { get; set; } = string.Empty;
         public string ConfirmPassword { get; set; } = string.Empty;
         public DateTime DateRegistered { get; set; } = DateTime.Now;
-
-       
     }
 }

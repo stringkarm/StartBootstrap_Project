@@ -1,32 +1,33 @@
 ﻿using System;
+using System.Globalization;
 
 public static class DatabaseHelper
 {
-    public static string InsertAndGetQuery(string tableName, string[] columns, string[] values)
+    public static string InsertAndGetQuery(string tableName, string[] columns, object[] values)
     {
-        string formattedColumns = "";
-        string formattedValues = "";
+        if (columns.Length != values.Length)
+        {
+            throw new ArgumentException("Columns and values count must match.");
+        }
+
+        string columnsPart = "";
+        string valuesPart = "";
 
         for (int i = 0; i < columns.Length; i++)
         {
-            string col = columns[i].Trim();
-            string val = values[i].Trim();
+            columnsPart += columns[i].Trim();
+            valuesPart += FormatValue(values[i]);
 
-            if (i == columns.Length - 1)
+            if (i < columns.Length - 1)
             {
-                formattedColumns += col;
-                formattedValues += val;
-            }
-            else
-            {
-                formattedColumns += col + ", ";
-                formattedValues += val + ", ";
+                columnsPart += ", ";
+                valuesPart += ", ";
             }
         }
 
-        string insertQuery = $"INSERT INTO {tableName} ({formattedColumns}) VALUES ({formattedValues})";
+        string insertQuery = $"INSERT INTO {tableName} ({columnsPart}) VALUES ({valuesPart})";
 
-        //WALA RANI DIRI SIRRR, EME RANI POOO//
+        //WAY GAMIT
         Console.WriteLine("------------------------------------------");
         Console.WriteLine($"DYNAMIC INSERT QUERY FOR [{tableName}] STORED IN CONSOLE:");
         Console.WriteLine(insertQuery);
@@ -35,28 +36,28 @@ public static class DatabaseHelper
         return insertQuery;
     }
 
-    public static string UpdateAndGetQuery(string tableName, string[] columns, string[] values, string idValue)
+    public static string UpdateAndGetQuery(string tableName, string[] columns, object[] values, string condition)
     {
-        string setClause = "";
+        if (columns.Length != values.Length)
+        {
+            throw new ArgumentException("Columns and values count must match.");
+        }
+
+        string setPart = "";
 
         for (int i = 0; i < columns.Length; i++)
         {
-            string col = columns[i].Trim();
-            string val = values[i].Trim();
+            setPart += columns[i].Trim() + " = " + FormatValue(values[i]);
 
-            if (i == columns.Length - 1)
+            if (i < columns.Length - 1)
             {
-                setClause += $"{col} = {val}";
-            }
-            else
-            {
-                setClause += $"{col} = {val}, ";
+                setPart += ", ";
             }
         }
 
-        string updateQuery = $"UPDATE {tableName} SET {setClause} WHERE Id = {idValue}";
+        string updateQuery = $"UPDATE {tableName} SET {setPart} WHERE {condition}";
 
-        //WALA RANI DIRI SIRRR//
+        //WAY GAMIT
         Console.WriteLine("------------------------------------------");
         Console.WriteLine($"DYNAMIC UPDATE QUERY FOR [{tableName}] STORED IN CONSOLE:");
         Console.WriteLine(updateQuery);
@@ -65,16 +66,43 @@ public static class DatabaseHelper
         return updateQuery;
     }
 
-    public static string DeleteAndGetQuery(string tableName, string idValue)
+    public static string DeleteAndGetQuery(string tableName, string condition)
     {
-        string deleteQuery = $"DELETE FROM {tableName} WHERE Id = {idValue}";
+        string deleteQuery = $"DELETE FROM {tableName} WHERE {condition}";
 
-        //WALA RANI DIRI SIRRR//
+        //WAY GAMIT
         Console.WriteLine("------------------------------------------");
         Console.WriteLine($"DYNAMIC DELETE QUERY FOR [{tableName}] STORED IN CONSOLE:");
         Console.WriteLine(deleteQuery);
         Console.WriteLine("------------------------------------------");
 
         return deleteQuery;
+    }
+
+    private static string FormatValue(object value)
+    {
+        if (value == null)
+        {
+            return "NULL";
+        }
+
+        string strValue = value.ToString();
+
+        if (int.TryParse(strValue, out int intResult))
+        {
+            return intResult.ToString();
+        }
+
+        if (decimal.TryParse(strValue, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal decResult))
+        {
+            return decResult.ToString(CultureInfo.InvariantCulture);
+        }
+
+        if (bool.TryParse(strValue, out bool boolResult))
+        {
+            return boolResult ? "1" : "0";
+        }
+
+        return "'" + strValue.Replace("'", "''") + "'";
     }
 }
